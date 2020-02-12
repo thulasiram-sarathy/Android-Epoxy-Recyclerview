@@ -23,8 +23,8 @@ interface RestApi {
     @GET("movie/{movie_id}/reviews")
     fun getReviews(@Path("movie_id") movieId:Int, @Query("api_key") api_key:String, @Query("page") page:Int): Call<ResponseBody>
 
-
-
+    @GET("movie/{movie_id}/videos")
+    fun getVideos(@Path("movie_id") movieId:Int, @Query("api_key") api_key:String): Call<ResponseBody>
 
 
     companion object {

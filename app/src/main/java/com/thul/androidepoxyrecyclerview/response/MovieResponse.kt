@@ -25,9 +25,9 @@ data class MovieListingData(@SerializedName("results")val results: List<Movie>,
                             @SerializedName("page") val page: Int,
                             @SerializedName("total_pages")val total_pages: Int)
 
-data class ReviewsListing(@SerializedName("results")val results: List<Review>,
+/*data class ReviewsListing(@SerializedName("results")val results: List<Review>,
                           @SerializedName("page") val page: Int,
-                          @SerializedName("total_pages")val total_pages: Int)
+                          @SerializedName("total_pages")val total_pages: Int)*/
 
 
 
@@ -41,8 +41,3 @@ data class ID (
 
 
 ):Parcelable
-
-@Parcelize
-data class Review(@SerializedName("id") val id:String,
-                  @SerializedName("author") val author:String,
-                  @SerializedName("content") val content:String):Parcelable

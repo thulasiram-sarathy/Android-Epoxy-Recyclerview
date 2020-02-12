@@ -2,20 +2,31 @@ package com.thul.androidepoxyrecyclerview.view.epoxyui
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.Gravity
 import android.view.View
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import android.widget.GridLayout.HORIZONTAL
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RatingBar
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.cardview.widget.CardView
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.airbnb.epoxy.CallbackProp
 import com.airbnb.epoxy.ModelProp
 import com.airbnb.epoxy.ModelView
 import com.airbnb.epoxy.TextProp
+import com.an.customfontview.CustomTextView
+import com.google.android.youtube.player.YouTubeInitializationResult
+import com.google.android.youtube.player.YouTubeThumbnailLoader
+import com.google.android.youtube.player.YouTubeThumbnailLoader.OnThumbnailLoadedListener
+import com.google.android.youtube.player.YouTubeThumbnailView
 import com.ms.square.android.expandabletextview.ExpandableTextView
-import com.squareup.picasso.Picasso
+import com.thul.androidepoxyrecyclerview.AppConstants.Companion.YT_KEY
 import com.thul.androidepoxyrecyclerview.R
 import com.thul.androidepoxyrecyclerview.utils.loadTmdbImage
+
 
 @ModelView(autoLayout = ModelView.Size.MATCH_WIDTH_WRAP_HEIGHT,fullSpan = false)
 class HomeView @JvmOverloads constructor(context: Context,
@@ -85,7 +96,7 @@ class LoadingView @JvmOverloads constructor(context: Context,
 class ReviewView @JvmOverloads constructor(context: Context,
                                            attributes: AttributeSet?=null,
                                            defStyle:Int = 0):CardView(context,attributes,defStyle) {
-    private val authorTextView: TextView
+    private val authorTextView: CustomTextView
     private val contentTextView: ExpandableTextView
 
     init {
@@ -105,5 +116,86 @@ class ReviewView @JvmOverloads constructor(context: Context,
         contentTextView.text = content
     }
 
+
+}
+
+
+@ModelView(autoLayout = ModelView.Size.MATCH_WIDTH_WRAP_HEIGHT,fullSpan = false)
+class VideoView @JvmOverloads constructor(context: Context,
+                                           attributes: AttributeSet?=null,
+                                           defStyle:Int = 0):CardView(context,attributes,defStyle) {
+    private val youtube_thumbnail : YouTubeThumbnailView
+    private val share_btn: AppCompatImageView
+    private val btn_play :AppCompatImageView
+    private val vid_frame : ConstraintLayout
+
+    init {
+        View.inflate(context, R.layout.movie_item_video, this)
+        youtube_thumbnail  = findViewById(R.id.youtube_thumbnail)
+        share_btn  = findViewById(R.id.share_btn)
+        btn_play  = findViewById(R.id.btn_play)
+        vid_frame  = findViewById(R.id.vid_frame)
+        /*addView(LinearLayout(context).also {
+            val params = LayoutParams(WRAP_CONTENT, WRAP_CONTENT)
+            params.gravity = Gravity.CENTER_HORIZONTAL
+            it.layoutParams = params
+            it.orientation = LinearLayout.HORIZONTAL
+        })*/
+    }
+
+
+    @ModelProp
+    fun setVideo(videokey: String?){
+        youtube_thumbnail.initialize(YT_KEY, object : YouTubeThumbnailView.OnInitializedListener {
+            override fun onInitializationSuccess(
+                youTubeThumbnailView: YouTubeThumbnailView,
+                youTubeThumbnailLoader: YouTubeThumbnailLoader
+            ) {
+
+                youTubeThumbnailLoader.setVideo(videokey)
+                youTubeThumbnailView.setImageBitmap(null)
+                youTubeThumbnailLoader.setOnThumbnailLoadedListener(object :
+                    OnThumbnailLoadedListener {
+                    override fun onThumbnailLoaded(
+                        youTubeThumbnailView: YouTubeThumbnailView,
+                        s: String
+                    ) {
+                        youTubeThumbnailView.visibility = View.VISIBLE
+                        vid_frame.visibility = View.VISIBLE
+                        btn_play.setImageResource(R.drawable.ic_play)
+                        youTubeThumbnailLoader.release()
+                    }
+
+                    override fun onThumbnailError(
+                        youTubeThumbnailView: YouTubeThumbnailView,
+                        errorReason: YouTubeThumbnailLoader.ErrorReason
+                    ) {
+                    }
+                })
+            }
+
+            override fun onInitializationFailure(
+                youTubeThumbnailView: YouTubeThumbnailView,
+                youTubeInitializationResult: YouTubeInitializationResult
+            ) { //write something for failure
+            }
+        })
+    }
+
+    @ModelProp
+    fun setTitle(name:String?) {
+
+    }
+
+    @ModelProp
+    fun setType(type:String?) {
+
+    }
+
+
+    @CallbackProp
+    fun setVideoClickListener(listener: OnClickListener?) {
+        vid_frame.setOnClickListener(listener)
+    }
 
 }

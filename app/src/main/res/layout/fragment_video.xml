@@ -5,10 +5,11 @@
              android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
     >
 
-   <com.airbnb.epoxy.EpoxyRecyclerView android:layout_width="match_parent"
-                                       android:id="@+id/reviewRecyclerview"
-                                       app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                                       android:layout_height="match_parent"/>
+   <com.airbnb.epoxy.EpoxyRecyclerView
+       android:layout_width="match_parent"
+       android:id="@+id/videoRecyclerview"
+       app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+       android:layout_height="match_parent"/>
 
    <include layout="@layout/layout_no_reviews"
             android:visibility="gone"

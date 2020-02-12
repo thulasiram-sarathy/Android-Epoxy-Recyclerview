@@ -4,24 +4,26 @@ import com.airbnb.epoxy.EpoxyModel
 import com.airbnb.epoxy.paging.PagedListEpoxyController
 import com.thul.androidepoxyrecyclerview.response.Movie
 import com.thul.androidepoxyrecyclerview.response.MovieApiResponse
+import com.thul.androidepoxyrecyclerview.response.VideoResponse
 import com.thul.androidepoxyrecyclerview.view.epoxyui.HomeViewModel_
 import com.thul.androidepoxyrecyclerview.view.epoxyui.LoadingViewModel_
+import com.thul.androidepoxyrecyclerview.view.epoxyui.VideoViewModel_
 
-class HomeController(private val listener:MovieClickListener) :PagedListEpoxyController<MovieApiResponse>(){
+class VideoController(private val listener:VideoClickListener) :PagedListEpoxyController<VideoResponse.Video>(){
     val endReached = false
-    override fun buildItemModel(currentPosition: Int, item: MovieApiResponse?): EpoxyModel<*> {
+    override fun buildItemModel(currentPosition: Int, item: VideoResponse.Video?): EpoxyModel<*> {
         return if (item ==null) {
             LoadingViewModel_()
                 .id(-currentPosition)
         } else {
 
-            HomeViewModel_()
+            VideoViewModel_()
                 .id(currentPosition)
-                .image(item.poster_path)
-                .moviename(item.title)
-                .movieRating(item.voteAverage.div(2).toFloat())
-                .movieItemClickListener { _, _, _, _ ->
-                    listener.onMovieItemClicked(item)
+                .video(item.key)
+                .title(item.name)
+                .type(item.type)
+                .videoClickListener() { _, _, _, _ ->
+                    listener.onVideoItemClicked(item)
                 }
 
         }
@@ -39,7 +41,7 @@ class HomeController(private val listener:MovieClickListener) :PagedListEpoxyCon
 
 }
 
-interface MovieClickListener {
-    fun onMovieItemClicked(movie: MovieApiResponse)
+interface VideoClickListener {
+    fun onVideoItemClicked(movie: VideoResponse.Video)
 
 }

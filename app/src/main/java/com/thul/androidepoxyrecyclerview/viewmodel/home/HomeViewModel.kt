@@ -6,12 +6,13 @@ import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.example.moviz.datasource.PageKeyMoviesFactory
 import com.thul.androidepoxyrecyclerview.response.Movie
+import com.thul.androidepoxyrecyclerview.response.MovieApiResponse
 import java.util.concurrent.Executor
 
 class HomeViewModel: ViewModel()
 {
 
-    var popularMoviesLiveData: LiveData<PagedList<Movie>>
+    var popularMoviesLiveData: LiveData<PagedList<MovieApiResponse>>
     private val pageSize = 10
     private val popularMoviesFactory: PageKeyMoviesFactory = PageKeyMoviesFactory("popular", Executor {
 

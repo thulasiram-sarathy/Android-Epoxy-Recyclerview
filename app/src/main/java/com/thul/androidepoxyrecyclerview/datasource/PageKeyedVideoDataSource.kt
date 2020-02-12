@@ -9,18 +9,20 @@ import com.thul.androidepoxyrecyclerview.datasource.NetworkState
 import com.thul.androidepoxyrecyclerview.response.ApiResponse
 import com.thul.androidepoxyrecyclerview.response.Movie
 import com.thul.androidepoxyrecyclerview.response.MovieApiResponse
+import com.thul.androidepoxyrecyclerview.response.VideoResponse
 import com.thul.androidepoxyrecyclerview.utils.parseStringToMoviesData
 import com.thul.androidepoxyrecyclerview.utils.parseStringToMoviesDataOne
+import com.thul.androidepoxyrecyclerview.utils.parseStringToVideo
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Response
 import java.util.concurrent.Executor
 
 
-class PageKeyedMoviesDataSource (
-                                 val type:String,
+class PageKeyedVideoDataSource (
+                                 val type:Int,
                                         retryExecutor: Executor
-) : PageKeyedDataSource<Int, MovieApiResponse>()
+) : PageKeyedDataSource<Int, VideoResponse.Video>()
 
 {
 
@@ -35,10 +37,10 @@ class PageKeyedMoviesDataSource (
     val initial = MutableLiveData<NetworkState>()
 
 
-    override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, MovieApiResponse>) {
+    override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, VideoResponse.Video>) {
         networkState.postValue(NetworkState.LOADING)
         initial.postValue(NetworkState.LOADING)
-        tmdbService.getMovies(type,TMDB_KEY,1)
+        tmdbService.getVideos(type,TMDB_KEY)
             .enqueue(object : retrofit2.Callback<ResponseBody> {
 
 
@@ -48,11 +50,11 @@ class PageKeyedMoviesDataSource (
 
                         val moviesResponseString = response.body()?.string()
                         Log.d("RESPONSE-",response.body().toString())
-                        val moviesListingData = parseStringToMoviesDataOne(moviesResponseString!!)
+                        val videoListingData = parseStringToVideo(moviesResponseString!!)
                         
 
                         Log.d("MOVIZ-A",response.body().toString())
-                        callback.onResult(moviesListingData.results,null,2)
+                        callback.onResult(videoListingData.results,null,2)
                         networkState.postValue(NetworkState.LOADED)
                         initial.postValue(NetworkState.LOADED)
                         initialParams = null
@@ -76,10 +78,10 @@ class PageKeyedMoviesDataSource (
 
     }
 
-    override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, MovieApiResponse>) {
+    override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, VideoResponse.Video>) {
         afterParams = params
         networkState.postValue(NetworkState.LOADING)
-        tmdbService.getMovies(type, TMDB_KEY,params.key)
+        tmdbService.getVideos(type, TMDB_KEY)
             .enqueue(object : retrofit2.Callback<ResponseBody> {
 
                 override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
@@ -87,9 +89,9 @@ class PageKeyedMoviesDataSource (
                     if (response.isSuccessful && response.code() == 200) {
 
                         val moviesResponseString = response.body()?.string()
-                        val moviesListingData = parseStringToMoviesDataOne(moviesResponseString!!)
+                        val moviesListingData = parseStringToVideo(moviesResponseString!!)
 
-                        callback.onResult(moviesListingData.results,moviesListingData.page+1)
+//                        callback.onResult(moviesListingData.results,moviesListingData.page+1)
                         networkState.postValue(NetworkState.LOADED)
                         afterParams = null
 
@@ -111,7 +113,7 @@ class PageKeyedMoviesDataSource (
     }
 
 
-    override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, MovieApiResponse>) {
+    override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, VideoResponse.Video>) {
 
     }
 

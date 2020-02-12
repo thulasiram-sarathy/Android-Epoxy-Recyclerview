@@ -26,14 +26,35 @@ fun parseStringToMoviesData(jsonString:String): MovieListingData {
 
 }
 
+fun parseStringToMoviesDataOne(jsonString:String): ApiResponse {
 
-fun parseStringToReviewsData(jsonString: String): ReviewsListing {
+
     val jsonObject = JSONObject(jsonString)
-    val reviews:List<Review> = gson.fromJson(jsonObject.getJSONArray("results").toString(),object :TypeToken<List<Review>>(){}.type)
+    val movies:List<MovieApiResponse> = gson.fromJson(jsonObject.getJSONArray("results").toString(),object :TypeToken<List<MovieApiResponse>>(){}.type)
+    val totalPages:Int = gson.fromJson(jsonObject.getInt("total_pages").toString(),object : TypeToken<Int>(){}.type)
+    val currentPage:Int = gson.fromJson(jsonObject.getInt("page").toString(),object : TypeToken<Int>(){}.type)
+    return ApiResponse(movies,currentPage,totalPages)
+
+
+}
+
+
+
+fun parseStringToReviewsData(jsonString: String): ReviewsResponse {
+    val jsonObject = JSONObject(jsonString)
+    val reviews:List<ReviewsResponse.Review> = gson.fromJson(jsonObject.getJSONArray("results").toString(),object :TypeToken<List<ReviewsResponse.Review>>(){}.type)
     val totalPages:Int = gson.fromJson(jsonObject.getInt("total_pages").toString(),object : TypeToken<Int>(){}.type)
     val currentPage:Int = gson.fromJson(jsonObject.getInt("page").toString(),object : TypeToken<Int>(){}.type)
 
-    return ReviewsListing(reviews,currentPage,totalPages)
+    return ReviewsResponse(reviews,currentPage,totalPages)
+
+}
+
+fun parseStringToVideo(jsonString: String): VideoResponse {
+    val jsonObject = JSONObject(jsonString)
+    val reviews:List<VideoResponse.Video> = gson.fromJson(jsonObject.getJSONArray("results").toString(),object :TypeToken<List<VideoResponse.Video>>(){}.type)
+
+    return VideoResponse(reviews)
 
 }
 

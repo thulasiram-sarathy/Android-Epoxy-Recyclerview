@@ -11,11 +11,13 @@
                   android:paddingTop="5dp"
                   android:paddingBottom="5dp"
                   android:orientation="vertical">
-        <TextView android:layout_width="wrap_content"
+        <com.an.customfontview.CustomTextView android:layout_width="wrap_content"
                   tools:text="Ngenge"
-                  android:layout_marginLeft="4dp"
-                  android:layout_marginRight="4dp"
-                  style="@style/TextAppearance.AppCompat.Medium"
+            app:textFontPath="comic_papyrus.ttf"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:textSize="18sp"
+                  style="@style/TextAppearance.AppCompat.Body1"
                   android:id="@+id/authorTextView"
                   android:layout_height="wrap_content"
                   />
@@ -25,15 +27,18 @@
                 android:id="@+id/contentTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+            android:paddingTop="8dp"
                 expandableTextView:maxCollapsedLines="4"
                 expandableTextView:animDuration="200">
-            <TextView
+            <com.an.customfontview.CustomTextView
                     android:id="@id/expandable_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
+
                     android:layout_marginRight="10dp"
                     android:textSize="16sp"
+                app:textFontPath="gt_medium.otf"
                     android:textColor="#666666" />
             <ImageButton
                     android:id="@id/expand_collapse"

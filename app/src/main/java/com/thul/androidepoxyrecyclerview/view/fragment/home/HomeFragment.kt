@@ -9,7 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import com.thul.androidepoxyrecyclerview.R
-import com.thul.androidepoxyrecyclerview.response.Movie
+import com.thul.androidepoxyrecyclerview.response.MovieApiResponse
 import com.thul.androidepoxyrecyclerview.utils.setupGridManager
 import com.thul.androidepoxyrecyclerview.view.adapter.HomeController
 import com.thul.androidepoxyrecyclerview.view.adapter.MovieClickListener
@@ -28,9 +28,9 @@ class HomeFragment : Fragment(){
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_popular, container, false)
         val moviesListController = HomeController(object : MovieClickListener {
-            override fun onMovieItemClicked(movie: Movie) {
-//                val action =  HomeFragmentDirections.popularToDetails(movie)
-//                root.findNavController().navigate(action)
+            override fun onMovieItemClicked(movie: MovieApiResponse) {
+                val action =  HomeFragmentDirections.popularToDetails(movie)
+                root.findNavController().navigate(action)
             }
 
         })

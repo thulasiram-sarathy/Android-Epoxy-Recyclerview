@@ -30,11 +30,14 @@
     <androidx.constraintlayout.widget.Guideline android:layout_width="wrap_content" android:layout_height="wrap_content"
                                                 android:id="@+id/guideline2" app:layout_constraintGuide_begin="20dp"
                                                 android:orientation="vertical"/>
-    <TextView
+    <com.an.customfontview.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/textViewTitle" app:layout_constraintStart_toStartOf="@+id/guideline2"
-            tools:text="AquaMan" app:layout_constraintTop_toBottomOf="@+id/ratingBar"
+            android:id="@+id/textViewTitle"
+            app:layout_constraintStart_toStartOf="@+id/guideline2"
+            tools:text="Movie"
+            app:layout_constraintTop_toBottomOf="@+id/ratingBar"
+            app:textFontPath="comic_papyrus.ttf"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" android:layout_marginTop="8dp"/>
     <RatingBar
             android:layout_width="wrap_content"
@@ -46,23 +49,28 @@
     <androidx.constraintlayout.widget.Guideline android:layout_width="wrap_content" android:layout_height="wrap_content"
                                                 android:id="@+id/guideline3" app:layout_constraintGuide_end="20dp"
                                                 android:orientation="vertical"/>
-    <TextView
+    <com.an.customfontview.CustomTextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/textViewOverview" app:layout_constraintStart_toStartOf="@+id/guideline2"
             app:layout_constraintTop_toBottomOf="@+id/textViewTitle"
-            android:text="Overview" app:layout_constraintEnd_toStartOf="@+id/guideline3" android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp" android:layout_marginRight="8dp" android:layout_marginEnd="8dp"
+            android:text="Overview"
+        android:textSize="15sp"
+            app:textFontPath="gt_medium.otf"
+            app:layout_constraintEnd_toStartOf="@+id/guideline3" android:layout_marginLeft="8dp"
+            android:layout_marginStart="0dp" android:layout_marginRight="8dp" android:layout_marginEnd="8dp"
             app:layout_constraintHorizontal_bias="0.0" android:layout_marginTop="8dp"/>
-    <TextView
+    <com.an.customfontview.CustomTextView
             android:text="Release:"
+            app:textFontPath="comic_papyrus.ttf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/textView5" app:layout_constraintStart_toStartOf="@+id/guideline2"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             app:layout_constraintTop_toBottomOf="@+id/textViewOverview" android:layout_marginTop="16dp"/>
-    <TextView
+    <com.an.customfontview.CustomTextView
             android:text="TextView"
+            app:textFontPath="gt_medium.otf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/releaseDateView"
@@ -70,7 +78,7 @@
             android:layout_marginStart="8dp" app:layout_constraintStart_toEndOf="@+id/textView5"/>
     <Button
             android:text="Reviews"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/buttonReviews"
             app:layout_constraintTop_toBottomOf="@+id/releaseDateView"
@@ -78,10 +86,10 @@
             app:layout_constraintEnd_toStartOf="@+id/buttonImages" android:layout_marginTop="16dp"
             android:textAllCaps="false"/>
     <Button
-            android:text="Trailer"
-            android:layout_width="wrap_content"
+            android:text="Videos"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/button3"
+            android:id="@+id/buttonTrailer"
             app:layout_constraintBaseline_toBaselineOf="@+id/buttonImages"
             app:layout_constraintEnd_toStartOf="@+id/guideline3" app:layout_constraintStart_toEndOf="@+id/buttonImages"
             app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toEndOf="parent"
@@ -91,9 +99,30 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/buttonImages"
-            app:layout_constraintBaseline_toBaselineOf="@+id/buttonReviews" app:layout_constraintStart_toEndOf="@+id/buttonReviews"
-            app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toStartOf="@+id/button3"
+        android:visibility="gone"
+            app:layout_constraintBaseline_toBaselineOf="@+id/buttonReviews"
+            app:layout_constraintStart_toEndOf="@+id/buttonReviews"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintEnd_toStartOf="@+id/buttonTrailer"
             android:textAllCaps="false"/>
+    <View
+        android:id="@+id/emptyspace"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/video_play_image_size"
+        android:background="@color/cardview_shadow_end_color"
+        app:layout_constraintTop_toBottomOf="@+id/buttonTrailer"/>
+    <FrameLayout
+        android:id="@+id/child_fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toBottomOf="@+id/emptyspace">
 
+    </FrameLayout>
+    <View
+        android:id="@+id/emptyspaceone"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/video_play_image_size"
+        android:background="@color/cardview_shadow_end_color"
+        app:layout_constraintTop_toBottomOf="@+id/child_fragment_container"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
